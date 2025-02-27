@@ -98,6 +98,13 @@ class Reviews implements ResolverInterface
         $searchCriteria->setCurrentPage($args['currentPage']);
         $searchCriteria->setPageSize($args['pageSize']);
 
+        if (isset($args['sort'])) {
+            $sortOrder = new \Magento\Framework\Api\SortOrder();
+            $sortOrder->setField($args['sort']['field']);
+            $sortOrder->setDirection(strtoupper($args['sort']['direction']));
+            $searchCriteria->setSortOrders([$sortOrder]);
+        }
+
         if (!$this->_helperData->isEnabled()) {
             return [
                 'total_count' => 0,
@@ -132,9 +139,9 @@ class Reviews implements ResolverInterface
             default:
                 throw new GraphQlInputException(__('No find your function'));
         }
+
         $searchResult = $this->filterQuery->getResult($searchCriteria, $collection);
 
-        //possible division by 0
         if ($searchCriteria->getPageSize()) {
             $maxPages = ceil($searchResult->getTotalCount() / $searchCriteria->getPageSize());
         } else {
@@ -201,17 +208,6 @@ class Reviews implements ResolverInterface
 
         $collection = $this->getReviewCollection();
         $collection->addFieldToFilter('main_table.entity_pk_value', $args['productId']);
-
-        if (isset($args['sort']) && is_array($args['sort'])) {
-            $sortField = $args['sort']['field'] ?? 'created_at';
-            $sortDirection = strtoupper($args['sort']['direction'] ?? 'DESC');
-
-            if (!in_array($sortDirection, ['ASC', 'DESC'])) {
-                throw new GraphQlInputException(__('Invalid sort direction'));
-            }
-
-            $collection->setOrder($sortField, $sortDirection);
-        }
 
         return $collection;
     }

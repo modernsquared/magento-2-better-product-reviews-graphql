@@ -26,6 +26,7 @@ type Query {
         customerId: Int @doc(description: "Customer ID use in the filter. Apply when action is get_by_customerId.")
         pageSize: Int = 10 @doc(description: "How many items should show on the page.")
         currentPage: Int = 1 @doc(description: "Allows to using paging it start with 1.")
+        sort: SortInput @doc(description: "Sort by field and direction.")
     ):ReviewsOutput @resolver(class: "\\Mageplaza\\BetterProductReviewsGraphQl\\Model\\Resolver\\Reviews") @doc(description: "The mpBprGetReview query searches for review that match the criteria specified in the filter.")
 }
 
@@ -146,7 +147,12 @@ type Product {
     review: ReviewsOutputNoPage @resolver(class: "Mageplaza\\BetterProductReviewsGraphQl\\Model\\Resolver\\Review\\Review") @doc(description: "The reviews assigned to a product.")
 }
 
-input ReviewSortInput {
-    field: String! @doc(description: "Field to sort by (e.g., created_at, avg_value).")
-    direction: String! @doc(description: "Sorting direction: ASC or DESC.")
+input SortInput {
+    field: String! @doc(description: "Field to sort by.")
+    direction: SortDirection! @doc(description: "Direction to sort by.")
+}
+
+enum SortDirection {
+    ASC @doc(description: "Ascending order.")
+    DESC @doc(description: "Descending order.")
 }
