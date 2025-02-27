@@ -44,6 +44,10 @@ type Mutation {
         reviewId: Int!
         storeId : String
     ):Review @resolver(class: "\\Mageplaza\\BetterProductReviewsGraphQl\\Model\\Resolver\\RemoveImageReview") @doc(description:"Remove a Image from Review")
+
+    mpBprUpvoteReview(
+        reviewId: Int! @doc(description: "The ID of the review to upvote.")
+    ): Review @resolver(class: "\\Mageplaza\\BetterProductReviewsGraphQl\\Model\\Resolver\\UpvoteReview") @doc(description: "Upvote a review by increasing its helpful count.")
 }
 
 input ImageReviewInput {

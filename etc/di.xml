@@ -30,4 +30,11 @@
             </argument>
         </arguments>
     </type>
+    <type name="Magento\Framework\GraphQl\Query\Resolver\Factory">
+        <arguments>
+            <argument name="resolvers" xsi:type="array">
+                <item name="Mageplaza\BetterProductReviewsGraphQl\Model\Resolver\UpvoteReview" xsi:type="string">Mageplaza\BetterProductReviewsGraphQl\Model\Resolver\UpvoteReview</item>
+            </argument>
+        </arguments>
+    </type>
 </config>
