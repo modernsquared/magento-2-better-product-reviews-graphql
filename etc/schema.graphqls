@@ -145,3 +145,8 @@ type Product {
     updated_at: String @doc(description: "Timestamp indicating when the product was updated."),
     review: ReviewsOutputNoPage @resolver(class: "Mageplaza\\BetterProductReviewsGraphQl\\Model\\Resolver\\Review\\Review") @doc(description: "The reviews assigned to a product.")
 }
+
+input ReviewSortInput {
+    field: String! @doc(description: "Field to sort by (e.g., created_at, avg_value).")
+    direction: String! @doc(description: "Sorting direction: ASC or DESC.")
+}

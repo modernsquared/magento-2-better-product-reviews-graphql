@@ -202,6 +202,17 @@ class Reviews implements ResolverInterface
         $collection = $this->getReviewCollection();
         $collection->addFieldToFilter('main_table.entity_pk_value', $args['productId']);
 
+        if (isset($args['sort']) && is_array($args['sort'])) {
+            $sortField = $args['sort']['field'] ?? 'created_at';
+            $sortDirection = strtoupper($args['sort']['direction'] ?? 'DESC');
+
+            if (!in_array($sortDirection, ['ASC', 'DESC'])) {
+                throw new GraphQlInputException(__('Invalid sort direction'));
+            }
+
+            $collection->setOrder($sortField, $sortDirection);
+        }
+
         return $collection;
     }
 
