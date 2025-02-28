@@ -28,6 +28,11 @@ type Query {
         currentPage: Int = 1 @doc(description: "Allows to using paging it start with 1.")
         sort: SortInput @doc(description: "Sort by field and direction.")
     ):ReviewsOutput @resolver(class: "\\Mageplaza\\BetterProductReviewsGraphQl\\Model\\Resolver\\Reviews") @doc(description: "The mpBprGetReview query searches for review that match the criteria specified in the filter.")
+
+    mpBprProductRatingSummary(
+        productId: Int! @doc(description: "The ID of the product to get the rating summary for.")
+    ): ProductRatingSummary @resolver(class: "\\Mageplaza\\BetterProductReviewsGraphQl\\Model\\Resolver\\ProductRatingSummary") @doc(description: "Get the average rating and rating spread for a product.")
+
 }
 
 type Mutation {
@@ -159,4 +164,14 @@ input SortInput {
 enum SortDirection {
     ASC @doc(description: "Ascending order.")
     DESC @doc(description: "Descending order.")
+}
+
+type ProductRatingSummary {
+    averageRating: Float! @doc(description: "The average rating of the product.")
+    ratingSpread: [RatingSpread]! @doc(description: "The spread of ratings (1-star to 5-star).")
+}
+
+type RatingSpread {
+    star: Int! @doc(description: "The star rating (1 to 5).")
+    count: Int! @doc(description: "The number of reviews with this star rating.")
 }
